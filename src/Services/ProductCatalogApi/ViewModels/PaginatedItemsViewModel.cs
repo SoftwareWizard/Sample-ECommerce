@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ProductCatalogApi.ViewModels
 {
@@ -8,11 +9,11 @@ namespace ProductCatalogApi.ViewModels
 
         public int PageIndex { get; private set; }
 
-        public int Count { get; private set; }
+        public long Count { get; private set; }
 
         public IEnumerable<TEntity> Data { get; set; }
 
-        public PaginatedItemsViewModel(int pageSize, int pageIndex, int count, IEnumerable<TEntity> data)
+        public PaginatedItemsViewModel(int pageSize, int pageIndex, long count, IEnumerable<TEntity> data)
         {
             PageSize = pageSize;
             PageIndex = pageIndex;
