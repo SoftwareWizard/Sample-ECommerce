@@ -3,9 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{503D6ACC-0A87-4BB1-AC01-11FB857FFA98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{62CD9EFC-CE59-4C69-8D8B-96BB18C7C398}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{140F5A4F-E6EE-4131-8CE7-D0DB88EB1F65}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62CD9EFC-CE59-4C69-8D8B-96BB18C7C398} = {503D6ACC-0A87-4BB1-AC01-11FB857FFA98}
+		{140F5A4F-E6EE-4131-8CE7-D0DB88EB1F65} = {503D6ACC-0A87-4BB1-AC01-11FB857FFA98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A2A08BC-EF30-4491-878B-68306B6EF158}
