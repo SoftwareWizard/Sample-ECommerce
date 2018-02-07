@@ -130,6 +130,8 @@ namespace ProductCatalogApi.Controllers
             return Ok(model);
         }
 
+        [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> CreateProduct([FromBody] CatalogItem product)
         {
             var item = new CatalogItem
@@ -144,9 +146,8 @@ namespace ProductCatalogApi.Controllers
 
             _catalogContext.CatalogItems.Add(item);
             await _catalogContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetItemById), new {id = item.Id});
+            return CreatedAtAction(nameof(GetItemById), new {id = item.Id}, item);
         }
-
 
         [HttpPut]
         [Route("items")]
@@ -163,7 +164,7 @@ namespace ProductCatalogApi.Controllers
             catalogItem = productToUpdate;
             _catalogContext.CatalogItems.Update(catalogItem);
             await _catalogContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetItemById), new { id = productToUpdate.Id });
+            return CreatedAtAction(nameof(GetItemById), new { id = productToUpdate.Id }, productToUpdate);
         }
 
         [HttpDelete]
@@ -184,7 +185,7 @@ namespace ProductCatalogApi.Controllers
 
         private void ChangeUrlPlaceholder(CatalogItem item)
         {
-            item.PictureUrl = item.PictureUrl.Replace(REPLACE_URL, _baseUrl);
+            item.PictureUrl = item.PictureUrl?.Replace(REPLACE_URL, _baseUrl);
         }
     }
 }
