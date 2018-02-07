@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ProductCatalogApi.Data;
 
 namespace ProductCatalogApi
 {
@@ -14,7 +16,24 @@ namespace ProductCatalogApi
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<CatalogContext>();
+                    CatalogSeed.SeedAsync(context).Wait();
+                }
+                catch (Exception exception)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(exception, "An error occured while seeding the database");
+                }
+
+                host.Run();
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
