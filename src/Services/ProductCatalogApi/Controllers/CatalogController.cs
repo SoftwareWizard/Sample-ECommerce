@@ -45,6 +45,9 @@ namespace ProductCatalogApi.Controllers
 
         [HttpGet]
         [Route("items/{id:int}")]
+        [ProducesResponseType(typeof(CatalogItem), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetItemById(int id)
         {
             if (id <= 0)
@@ -66,6 +69,7 @@ namespace ProductCatalogApi.Controllers
         // GET api/Catalog/items[?pageSize=4&pageIndex=3]
         [HttpGet]
         [Route("[action]")]
+        [ProducesResponseType(typeof(List<CatalogItem>),200)]
         public async Task<IActionResult> Items([FromQuery] int pageSize = 6, [FromQuery] int pageIndex = 0)
         {
             var totalItems = await _catalogContext.CatalogItems.LongCountAsync();
