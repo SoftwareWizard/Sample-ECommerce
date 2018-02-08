@@ -24,6 +24,10 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
+        "DatabaseUser": "sa",
+        "DatabaseUserPassword": "ProductApi(!)",
+        "DatabaseServer": "localhost,1445",
+        "DatabaseName": "CatalogDb",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000/"
