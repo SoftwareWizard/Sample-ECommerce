@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ShoesOnContainers.Web.WebMvc.Infrastructure
+﻿namespace ShoesOnContainers.Web.WebMvc.Infrastructure
 {
     public class ApiPaths
     {
@@ -29,6 +24,7 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
 
                 return $"{baseUri}/items/{id}";
             }
+
             public static string GetAllBrands(string baseUri)
             {
                 return $"{baseUri}catalogBrands";
@@ -39,7 +35,5 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
                 return $"{baseUri}catalogTypes";
             }
         }
-
-
     }
 }
