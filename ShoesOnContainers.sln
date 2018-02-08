@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMvc", "src\Web\WebMvc\WebMvc.csproj", "{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{02F42966-7B8B-4903-B003-CC453038ECBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02F42966-7B8B-4903-B003-CC453038ECBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02F42966-7B8B-4903-B003-CC453038ECBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,6 +41,7 @@ Global
 		{62CD9EFC-CE59-4C69-8D8B-96BB18C7C398} = {503D6ACC-0A87-4BB1-AC01-11FB857FFA98}
 		{140F5A4F-E6EE-4131-8CE7-D0DB88EB1F65} = {503D6ACC-0A87-4BB1-AC01-11FB857FFA98}
 		{02F42966-7B8B-4903-B003-CC453038ECBD} = {62CD9EFC-CE59-4C69-8D8B-96BB18C7C398}
+		{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C} = {140F5A4F-E6EE-4131-8CE7-D0DB88EB1F65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A2A08BC-EF30-4491-878B-68306B6EF158}
