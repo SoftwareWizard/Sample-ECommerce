@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShoesOnContainers.Web.WebMvc.Infrastructure;
+using ShoesOnContainers.Web.WebMvc.Services;
 
 namespace ShoesOnContainers.Web.WebMvc
 {
@@ -17,6 +19,9 @@ namespace ShoesOnContainers.Web.WebMvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration);
+            services.AddSingleton<IHttpClient, CustomHttpClient>();
+            services.AddTransient<ICatalogService, CatalogService>();
             services.AddMvc();
         }
 
