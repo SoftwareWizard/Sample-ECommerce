@@ -21,13 +21,29 @@ namespace TokenServiceApi
             Configuration = configuration;
         }
 
+        private string ConnectionString
+        {
+            get
+            {
+                var server = Configuration["DatabaseServer"];
+                var database = Configuration["DatabaseName"];
+                var user = Configuration["DatabaseUser"];
+                var password = Configuration["DatabaseUserPassword"];
+                var connectionString = $"Server={server};" +
+                                       $"Database={database};" +
+                                       $"User Id={user};" +
+                                       $"Password={password};" +
+                                       "MultipleActiveResultSets=true";
+                return connectionString;
+            }
+        }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

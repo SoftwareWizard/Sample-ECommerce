@@ -18,8 +18,11 @@
     },
     "TokenServiceApi": {
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
+        "DatabaseUser": "sa",
+        "DatabaseUserPassword": "ProductApi(!)",
+        "DatabaseServer": "localhost,1445",
+        "DatabaseName": "TokenServiceDb",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000/"
