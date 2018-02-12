@@ -5,6 +5,13 @@ networks:
    backend:
 
 services:
+   basket.data:
+      image: redis
+      ports:
+         - "6377:6379"
+      networks:
+         - backend
+
    webmvc:
       build:
          context: .\src\Web\webmvc

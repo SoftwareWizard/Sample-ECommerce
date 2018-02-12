@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CartApi.Infrastructure.Filters;
 using CartApi.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CartApi
 {
@@ -26,7 +28,10 @@ namespace CartApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+            }).AddControllersAsServices();
 
             services.Configure<CartSettings>(Configuration);
             services.AddSingleton<ConnectionMultiplexer>(provider =>
@@ -36,6 +41,18 @@ namespace CartApi
                 configuration.ResolveDns = true;
                 configuration.AbortOnConnectFail = false;
                 return ConnectionMultiplexer.Connect(configuration);
+            });
+
+            services.AddSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new Info()
+                {
+                    Title = "Basket HTTP API",
+                    Version = "v1",
+                    Description = "The Basket Service HTTP API",
+                    TermsOfService = "Terms of Service"
+                });
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -51,6 +68,13 @@ namespace CartApi
             }
 
             app.UseMvc();
+
+            app.UseSwagger()
+                .UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}");
+                    //options.ConfigureOAuth2("basketswaggerui", "", "", "Basket Swagger UI");
+                });
         }
     }
 }
