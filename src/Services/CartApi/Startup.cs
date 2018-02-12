@@ -55,6 +55,35 @@ namespace CartApi
             services.AddTransient<ICartRepository, RedisCartRepository>();
         }
 
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                loggerFactory.AddConsole(LogLevel.Trace);
+            }
+
+            //var pathBase = Configuration["PATH_BASE"];
+            //if (!string.IsNullOrEmpty(pathBase))
+            //{
+            //    app.UsePathBase(pathBase);
+            //}
+            app.UseAuthentication();
+            app.UseMvc();
+
+            app.UseSwagger()
+                .UseSwaggerUI(options =>
+                {
+                    //var path = !string.IsNullOrEmpty(pathBase) 
+                    //    ? pathBase 
+                    //    : string.Empty;
+                    options.SwaggerEndpoint($"/swagger/v1/swagger.json", "Basket.API V1");
+                    options.ConfigureOAuth2("basketswaggerui", "", "", "Basket Swagger UI");
+                });
+        }
+
         private void ConfigureAuthService(IServiceCollection services)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -69,47 +98,19 @@ namespace CartApi
                 options.RequireHttpsMetadata = false;
                 options.Audience = "basket";
             });
-
-        }
-
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            //var pathBase = Configuration["PATH_BASE"];
-            //if (!string.IsNullOrEmpty(pathBase))
-            //{
-            //    app.UsePathBase(pathBase);
-            //}
-
-            app.UseMvc();
-
-            app.UseSwagger()
-                .UseSwaggerUI(options =>
-                {
-                    //var path = !string.IsNullOrEmpty(pathBase) 
-                    //    ? pathBase 
-                    //    : string.Empty;
-                    options.SwaggerEndpoint($"/swagger/v1/swagger.json", "Basket.API V1");
-                    options.ConfigureOAuth2("basketswaggerui", "", "", "Basket Swagger UI");
-                });
         }
 
         private void SwaggerOptions(SwaggerGenOptions options)
         {
             options.DescribeAllEnumsAsStrings();
-            options.SwaggerDoc("v1", new Info()
+            options.SwaggerDoc("v1", new Info
             {
                 Title = "Basket HTTP API",
                 Version = "v1",
                 Description = "The Basket Service HTTP API",
                 TermsOfService = "Terms of Service"
             });
+
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             options.AddSecurityDefinition("oauth2", new OAuth2Scheme
             {
