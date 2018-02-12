@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using CartApi.Infrastructure.Filters;
 using CartApi.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +38,8 @@ namespace CartApi
             //}).AddControllersAsServices();
 
             services.Configure<CartSettings>(Configuration);
+
+            ConfigureAuthService(services);
             services.AddSingleton<ConnectionMultiplexer>(provider =>
             {
                 var settings = provider.GetRequiredService<IOptions<CartSettings>>().Value;
@@ -49,6 +53,23 @@ namespace CartApi
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICartRepository, RedisCartRepository>();
+        }
+
+        private void ConfigureAuthService(IServiceCollection services)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = identityUrl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "basket";
+            });
+
         }
 
 
@@ -75,7 +96,7 @@ namespace CartApi
                     //    ? pathBase 
                     //    : string.Empty;
                     options.SwaggerEndpoint($"/swagger/v1/swagger.json", "Basket.API V1");
-                    //options.ConfigureOAuth2("basketswaggerui", "", "", "Basket Swagger UI");
+                    options.ConfigureOAuth2("basketswaggerui", "", "", "Basket Swagger UI");
                 });
         }
 
@@ -89,6 +110,19 @@ namespace CartApi
                 Description = "The Basket Service HTTP API",
                 TermsOfService = "Terms of Service"
             });
+            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
+            options.AddSecurityDefinition("oauth2", new OAuth2Scheme
+            {
+                Type = "oauth2",
+                Flow = "implicit",
+                AuthorizationUrl = $"{identityUrl}/connect/authorize",
+                TokenUrl = $"{identityUrl}/connect/token",
+                Scopes = new Dictionary<string, string>
+                {
+                    {"basket", "Basket Api"}
+                }
+            });
+            options.OperationFilter<AuthorizeCheckOperationFilter>();
         }
     }
 }

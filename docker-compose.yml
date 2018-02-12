@@ -79,3 +79,20 @@ services:
          - "1445:1433"
       networks:
          - backend      
+
+   cart:
+      image: cartimage
+      build:
+         context: .\src\Services\CartApi
+         dockerfile: Dockerfile
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+      container_name: cartapi
+      ports:
+         - "5500:80"
+      networks:
+         - backend
+         - frontend
+      depends_on:
+         - basket.data
+         - tokenserver
