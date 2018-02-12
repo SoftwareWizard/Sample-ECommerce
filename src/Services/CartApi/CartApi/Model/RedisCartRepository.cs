@@ -14,7 +14,7 @@ namespace CartApi.Model
         private readonly ConnectionMultiplexer _redis;
         private readonly IDatabase _database;
 
-        public RedisCartRepository(ILoggerFactory loggerFactory, ConnectionMultiplexer redis, IDatabase database)
+        public RedisCartRepository(ILoggerFactory loggerFactory, ConnectionMultiplexer redis)
         {
             _logger = loggerFactory.CreateLogger<RedisCartRepository>();
             _redis = redis;
