@@ -31,11 +31,11 @@ namespace CartApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-            //}).AddControllersAsServices();
+            services
+                .AddMvcCore(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
+                .AddJsonFormatters()
+                .AddApiExplorer()
+                .AddControllersAsServices();
 
             services.Configure<CartSettings>(Configuration);
 
