@@ -5,12 +5,6 @@ networks:
    backend:
 
 services:
-   basket.data:
-      image: redis
-      ports:
-         - "6377:6379"
-      networks:
-         - backend
 
    webmvc:
       build:
@@ -27,6 +21,7 @@ services:
          - frontend
       depends_on:
          - catalog
+         - cart
          - tokenserver
 
    catalog:
@@ -47,7 +42,26 @@ services:
          - frontend
       depends_on:
          - mssqlserver
-   
+         - tokenserver
+ 
+   cart:
+      image: cartimage
+      build:
+         context: .\src\Services\CartApi
+         dockerfile: Dockerfile
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ConnectionString=basket.data
+      container_name: cartapi
+      ports:
+         - "5500:80"
+      networks:
+         - backend
+         - frontend
+      depends_on:
+         - basket.data
+         - tokenserver
+ 
    tokenserver:
       build:
          context: .\src\Services\TokenServiceApi
@@ -67,7 +81,6 @@ services:
          - frontend
       depends_on:
          - mssqlserver
-         - catalog
 
    mssqlserver:
       image: "microsoft/mssql-server-linux:latest"
@@ -80,19 +93,9 @@ services:
       networks:
          - backend      
 
-   cart:
-      image: cartimage
-      build:
-         context: .\src\Services\CartApi
-         dockerfile: Dockerfile
-      environment:
-         - ASPNETCORE_ENVIRONMENT=Development
-      container_name: cartapi
+   basket.data:
+      image: redis
       ports:
-         - "5500:80"
+         - "6377:6379"
       networks:
          - backend
-         - frontend
-      depends_on:
-         - basket.data
-         - tokenserver

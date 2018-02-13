@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using ShoesOnContainers.Web.WebMvc.Models;
 
 namespace ShoesOnContainers.Web.WebMvc
 {
@@ -36,6 +37,8 @@ namespace ShoesOnContainers.Web.WebMvc
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IHttpClient, CustomHttpClient>();
             services.AddTransient<ICatalogService, CatalogService>();
+            services.AddTransient<IIdentityService<ApplicationUser>, IdentityService>();
+            services.AddTransient<ICartService, CartService>();
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             var callBackUrl = Configuration.GetValue<string>("CallBackUrl");

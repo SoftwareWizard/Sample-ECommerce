@@ -3,6 +3,7 @@
     public class AppSettings
     {
         public string CatalogUrl { get; set; }
+        public string CartUrl { get; set; }
         public Logging Logging { get; set; }
     }
 

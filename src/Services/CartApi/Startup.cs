@@ -42,8 +42,9 @@ namespace CartApi
             ConfigureAuthService(services);
             services.AddSingleton<ConnectionMultiplexer>(provider =>
             {
-                var settings = provider.GetRequiredService<IOptions<CartSettings>>().Value;
-                var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
+                //var settings = provider.GetRequiredService<IOptions<CartSettings>>().Value;
+                var connectionString = Configuration["ConnectionString"];
+                var configuration = ConfigurationOptions.Parse(connectionString, true);
                 configuration.ResolveDns = true;
                 configuration.AbortOnConnectFail = false;
                 return ConnectionMultiplexer.Connect(configuration);
