@@ -14,8 +14,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3A28047-86D2-4D02-B9DB-E8427B828F7F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.env = .env
 		docker-compose.CartApi.redis.yml = docker-compose.CartApi.redis.yml
+		docker-compose.OrderApi.yml = docker-compose.OrderApi.yml
 		docker-compose.yml = docker-compose.yml
+		secrets.env = secrets.env
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMvc", "src\Web\WebMvc\WebMvc.csproj", "{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C}"
@@ -23,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TokenServiceApi", "src\Services\TokenServiceApi\TokenServiceApi.csproj", "{44D04805-1D08-442E-97B4-80BA3D36480F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartApi", "src\Services\CartApi\CartApi.csproj", "{E4CD9B17-9ACF-499D-8E9F-66082221B7D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApi", "src\Services\OrderApi\OrderApi.csproj", "{1593F2B7-BA56-43FC-AFFF-C168FC3A6C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +51,10 @@ Global
 		{E4CD9B17-9ACF-499D-8E9F-66082221B7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4CD9B17-9ACF-499D-8E9F-66082221B7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4CD9B17-9ACF-499D-8E9F-66082221B7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1593F2B7-BA56-43FC-AFFF-C168FC3A6C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1593F2B7-BA56-43FC-AFFF-C168FC3A6C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1593F2B7-BA56-43FC-AFFF-C168FC3A6C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1593F2B7-BA56-43FC-AFFF-C168FC3A6C32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +66,7 @@ Global
 		{EB33A6F0-8C9C-4F8A-AFE2-DDF931BFD23C} = {140F5A4F-E6EE-4131-8CE7-D0DB88EB1F65}
 		{44D04805-1D08-442E-97B4-80BA3D36480F} = {62CD9EFC-CE59-4C69-8D8B-96BB18C7C398}
 		{E4CD9B17-9ACF-499D-8E9F-66082221B7D7} = {62CD9EFC-CE59-4C69-8D8B-96BB18C7C398}
+		{1593F2B7-BA56-43FC-AFFF-C168FC3A6C32} = {62CD9EFC-CE59-4C69-8D8B-96BB18C7C398}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A2A08BC-EF30-4491-878B-68306B6EF158}

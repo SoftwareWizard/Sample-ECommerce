@@ -1,0 +1,53 @@
+version: "3.2"
+
+networks:
+  frontend:
+  backend:
+
+services:
+   order.server:
+      container_name: ${MYSQL_SERVER_NAME}
+      image: mysql/mysql-server:5.7
+      restart: always
+      volumes:
+         - odata:/var/lib/mysql
+      ports:
+         - "3406:3306"  
+      environment:
+         MYSQL_RANDOM_ROOT_PASSWORD: !!str yes
+      env_file:
+         - secrets.env  
+      networks:
+         - backend
+
+   tokenserver:
+      build: 
+         context: .\src\Services\TokenServiceApi
+         dockerfile: Dockerfile
+      environment: 
+         - ASPNETCORE_ENVIRONMENT=Development 
+         - MvcClient=http://localhost:5200   
+         - BasketApiClient=http://localhost:5500
+         - OrderApiClient=http://localhost:5600
+      container_name: tokenserviceapi
+      ports:
+         - "5000:80"
+      networks:
+         - backend
+         - frontend 
+      depends_on:
+         - mssqlserver
+  
+   mssqlserver:
+      image: "microsoft/mssql-server-linux:latest"
+      container_name: mssqldata
+      ports:
+         - "1402:1433" 
+      networks:
+         - backend
+      environment:
+         - SA_PASSWORD=MyProduct!123
+         - ACCEPT_EULA="Y"
+
+volumes:
+   odata:
