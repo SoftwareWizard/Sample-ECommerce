@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace CartApi.Controllers
 {
     [Route("api/v1/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class CartController : Controller
     {
         private readonly ICartRepository _repository;
