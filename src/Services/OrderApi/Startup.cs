@@ -39,6 +39,7 @@ namespace OrderApi
                 .AddApiExplorer();
 
             var connectionString = Configuration["ConnectionString"];
+
             WaitForDBInit(connectionString);
             services.AddEntityFrameworkMySql()
                 .AddDbContext<OrdersContext>(options =>
@@ -84,6 +85,19 @@ namespace OrderApi
                 app.UseDeveloperExceptionPage();
             }
 
+            var pathBase = Configuration["PATH_BASE"];
+            if (!string.IsNullOrEmpty(pathBase))
+            {
+                app.UsePathBase(pathBase);
+            }
+
+            app.UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "OrderApi V1");
+                    c.ConfigureOAuth2("orderswaggerui", "", "", "Ordering Swagger UI");
+                });
+
             app.UseMvc();
         }
 
@@ -107,6 +121,5 @@ namespace OrderApi
                 }
             }
         }
-
     }
 }

@@ -4,6 +4,9 @@ networks:
    frontend:
    backend:
 
+volumes:
+   odata:
+
 services:
 
    webmvc:
@@ -99,5 +102,20 @@ services:
       image: redis
       ports:
          - "6377:6379"
+      networks:
+         - backend
+
+   order.server:
+      container_name: ${MYSQL_SERVER_NAME}
+      image: mysql/mysql-server:5.7
+      restart: always
+      volumes:
+         - odata:/var/lib/mysql
+      ports:
+         - "3406:3306"  
+      environment:
+         MYSQL_RANDOM_ROOT_PASSWORD: !!str yes
+      env_file:
+         - secrets.env  
       networks:
          - backend

@@ -19,11 +19,11 @@
     "OrderApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "http://localhost:5600/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:55366/"
+      "applicationUrl": "http://localhost:5600/"
     }
   }
 }

@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OrderApi;
 using OrderApi.Data;
 using OrderApi.Models;
-using System;
-using System.Net;
-using System.Threading.Tasks;
 
-namespace ShoesOnContainers.Services.OrderApi.Controllers
+namespace OrderApi.Controllers
 {
     [Route("api/v1/[controller]")]
     public class OrdersController : Controller
