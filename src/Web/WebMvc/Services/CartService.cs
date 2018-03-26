@@ -60,7 +60,6 @@ namespace ShoesOnContainers.Web.WebMvc.Services
 
         public async Task ClearCart(ApplicationUser user)
         {
-            var token = await GetUserTokenAsync();
             var cleanBasketUri = ApiPaths.Basket.CleanBasket(_remoteServiceBaseUrl, user.Id);
             _logger.LogDebug("Clean Basket uri : " + cleanBasketUri);
             var response = await _apiClient.DeleteAsync(cleanBasketUri);
@@ -69,14 +68,13 @@ namespace ShoesOnContainers.Web.WebMvc.Services
 
         public async Task<Cart> GetCart(ApplicationUser user)
         {
-            var token = await GetUserTokenAsync();
             _logger.LogInformation(" We are in get basket and user id " + user.Id);
             _logger.LogInformation(_remoteServiceBaseUrl);
 
             var getBasketUri = ApiPaths.Basket.GetBasket(_remoteServiceBaseUrl, user.Id);
             _logger.LogInformation(getBasketUri);
 
-            var dataString = await _apiClient.GetStringAsync(getBasketUri, token);
+            var dataString = await _apiClient.GetStringAsync(getBasketUri);
             _logger.LogInformation(dataString);
 
             var response = JsonConvert.DeserializeObject<Cart>(dataString) ?? new Cart { BuyerId = user.Id };
@@ -100,20 +98,13 @@ namespace ShoesOnContainers.Web.WebMvc.Services
 
         public async Task<Cart> UpdateCart(Cart cart)
         {
-            var token = await GetUserTokenAsync();
             _logger.LogDebug("Service url: " + _remoteServiceBaseUrl);
             var updateBasketUri = ApiPaths.Basket.UpdateBasket(_remoteServiceBaseUrl);
             _logger.LogDebug("Update Basket url: " + updateBasketUri);
-            var response = await _apiClient.PostAsync(updateBasketUri, cart, token);
+            var response = await _apiClient.PostAsync(updateBasketUri, cart);
             response.EnsureSuccessStatusCode();
 
             return cart;
-        }
-
-        private async Task<string> GetUserTokenAsync()
-        {
-            var context = _httpContextAccesor.HttpContext;
-            return await context.GetTokenAsync("access_token");
         }
     }
 }

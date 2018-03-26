@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CartApi.Infrastructure.Filters;
 using CartApi.Model;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -49,13 +51,11 @@ namespace CartApi
                 configuration.AbortOnConnectFail = false;
                 return ConnectionMultiplexer.Connect(configuration);
             });
-
             services.AddSwaggerGen(SwaggerOptions);
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICartRepository, RedisCartRepository>();
+            services.AddMvc();
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -66,16 +66,11 @@ namespace CartApi
                 loggerFactory.AddConsole(LogLevel.Trace);
             }
 
-            //var pathBase = Configuration["PATH_BASE"];
-            //if (!string.IsNullOrEmpty(pathBase))
-            //{
-            //    app.UsePathBase(pathBase);
-            //}
             app.UseAuthentication();
             app.UseMvc();
 
             app.UseSwagger()
-                .UseSwaggerUI(options =>
+               .UseSwaggerUI(options =>
                 {
                     //var path = !string.IsNullOrEmpty(pathBase) 
                     //    ? pathBase 
@@ -88,6 +83,7 @@ namespace CartApi
         private void ConfigureAuthService(IServiceCollection services)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             services.AddAuthentication(options =>
             {

@@ -32,7 +32,6 @@ namespace ShoesOnContainers.Web.WebMvc
             services.AddMvc();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-
             services.Configure<AppSettings>(Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IHttpClient, CustomHttpClient>();
@@ -51,7 +50,6 @@ namespace ShoesOnContainers.Web.WebMvc
             .AddCookie()
             .AddOpenIdConnect(options => {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                 
                 options.Authority = identityUrl.ToString();
                 options.SignedOutRedirectUri = callBackUrl.ToString();
                 options.ClientId ="mvc";
@@ -63,9 +61,9 @@ namespace ShoesOnContainers.Web.WebMvc
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("offline_access");
+                options.Scope.Add("basket");
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-
                     NameClaimType = "name",
                     RoleClaimType = "role"
                 };
@@ -89,6 +87,7 @@ namespace ShoesOnContainers.Web.WebMvc
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseTransferToken();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -98,7 +97,6 @@ namespace ShoesOnContainers.Web.WebMvc
                   name: "defaultError",
                   template: "{controller=Error}/{action=Error}");
             });
-          
         }
     }
 }

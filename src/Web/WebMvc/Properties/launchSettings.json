@@ -19,6 +19,10 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "IdentityUrl": "http://localhost:5000",
+        "CallbackUrl": "http://localhost:5200",
+        "CatalogUrl": "http://localhost:5100",
+        "CartUrl": "http://localhost:5500",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5200/"

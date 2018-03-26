@@ -57,6 +57,7 @@ services:
       environment:
          - ASPNETCORE_ENVIRONMENT=Development
          - ConnectionString=basket.data
+         - IdentityUrl=http://10.0.75.1:5000
       container_name: cartapi
       ports:
          - "5500:80"

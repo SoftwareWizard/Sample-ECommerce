@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using WebMvc.Models;
 using ShoesOnContainers.Web.WebMvc.Services;
 using ShoesOnContainers.Web.WebMvc.ViewModels;
@@ -18,6 +20,7 @@ namespace WebMvc.Controllers
         public async Task<IActionResult> Index(int? BrandFilterApplied, int? TypesFilterApplied, int? page)
         {
             int itemsPage=10;
+
             var catalog = await _catalogSvc.GetCatalogItems(page ?? 0, itemsPage, BrandFilterApplied, TypesFilterApplied);
             var vm = new CatalogIndexViewModel()
             {

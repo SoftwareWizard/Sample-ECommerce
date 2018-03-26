@@ -1,0 +1,20 @@
+version: "3.2"
+
+networks:
+   backend:
+
+services:
+   datadog:
+      image: datadog/docker-dd-agent:latest-alpine
+      container_name: dd-agent
+      environment:
+      - DD_API_KEY=0e5c169644aea3f825d7443a3cae4254
+      - DD_APM_ENABLED=true
+      - DD_LOGS_ENABLED=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro 
+      - /proc/:/host/proc/:ro 
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro 
+      networks:
+         - backend

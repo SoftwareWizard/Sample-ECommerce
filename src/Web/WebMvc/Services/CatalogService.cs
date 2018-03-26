@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ShoesOnContainers.Web.WebMvc.Infrastructure;
@@ -31,22 +32,16 @@ namespace ShoesOnContainers.Web.WebMvc.Services
 
         public async Task<Catalog> GetCatalogItems(int page, int take, int? brand, int? type)
         {
-            var allcatalogItemsUri =
-                ApiPaths.Catalog.GetAllCatalogItems(_remoteServiceBaseUrl, page, take, brand, type);
-
+            var allcatalogItemsUri = ApiPaths.Catalog.GetAllCatalogItems(_remoteServiceBaseUrl, page, take, brand, type);
             var dataString = await _apiClient.GetStringAsync(allcatalogItemsUri);
-
             var response = JsonConvert.DeserializeObject<Catalog>(dataString);
-
             return response;
         }
 
         public async Task<IEnumerable<SelectListItem>> GetBrands()
         {
             var getBrandsUri = ApiPaths.Catalog.GetAllBrands(_remoteServiceBaseUrl);
-
             var dataString = await _apiClient.GetStringAsync(getBrandsUri);
-
             var items = new List<SelectListItem>
             {
                 new SelectListItem {Value = null, Text = "All", Selected = true}
@@ -68,7 +63,6 @@ namespace ShoesOnContainers.Web.WebMvc.Services
         public async Task<IEnumerable<SelectListItem>> GetTypes()
         {
             var getTypesUri = ApiPaths.Catalog.GetAllTypes(_remoteServiceBaseUrl);
-
             var dataString = await _apiClient.GetStringAsync(getTypesUri);
 
             var items = new List<SelectListItem>
