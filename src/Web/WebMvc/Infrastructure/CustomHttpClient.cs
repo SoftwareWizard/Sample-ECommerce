@@ -10,7 +10,7 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
 {
     public class CustomHttpClient: IHttpClient
     {
-        private HttpClient _client;
+        private readonly HttpClient _client;
         private ILogger<CustomHttpClient> _logger;
 
         public CustomHttpClient(ILogger<CustomHttpClient> logger)
@@ -19,12 +19,11 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
             _logger = logger;
         }
 
-        public string Token { get; set; }
+        public void SetBearerToken(string token) => _client.SetBearerToken(token);
 
         public async Task<string> GetStringAsync(string uri)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-            requestMessage.Headers.SetToken(Token);
             var response = await _client.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
@@ -53,7 +52,6 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
             //    requestMessage.Headers.Add("x-requestid", requestId);
             //}
 
-            requestMessage.Headers.SetToken(Token);
             var response = await _client.SendAsync(requestMessage);
 
             // raise exception if HttpResponseCode 500 
@@ -80,19 +78,7 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
         public async Task<HttpResponseMessage> DeleteAsync(string uri)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
-            requestMessage.Headers.SetToken(Token);
             return await _client.SendAsync(requestMessage);
-        }
-    }
-
-    public static class AuthenticationHeaderValueExtension
-    {
-        public static void SetToken(this HttpRequestHeaders headers, string token)
-        {
-            if (!string.IsNullOrEmpty(token))
-            {
-                headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
         }
     }
 }

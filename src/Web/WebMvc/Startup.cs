@@ -87,7 +87,7 @@ namespace ShoesOnContainers.Web.WebMvc
 
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseTransferToken();
+            app.UseTokenForwarding();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

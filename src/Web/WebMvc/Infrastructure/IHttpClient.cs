@@ -13,6 +13,6 @@ namespace ShoesOnContainers.Web.WebMvc.Infrastructure
 
         Task<HttpResponseMessage> PutAsync<T>(string uri, T item);
 
-        string Token { get; set; }
+        void SetBearerToken(string token);
     }
 }
